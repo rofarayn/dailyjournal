@@ -1,0 +1,75 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor Customer
+actor Admin
+actor Direktur
+actor Kurir
+
+rectangle "Sistem E-Commerce Sikil Resik" {
+
+  === USE CASE CUSTOMER ===
+  Customer --> (Registrasi Akun)
+  Customer --> (Login)
+  Customer --> (Melihat Produk)
+  Customer --> (Filter Produk)
+  Customer --> (Memilih Produk)
+  Customer --> (Tambah ke Keranjang)
+  Customer --> (Checkout)
+  Customer --> (Pilih Metode Pembayaran)
+  Customer --> (Melakukan Pembayaran)
+  Customer --> (Lihat Status Pesanan)
+  Customer --> (Tracking Pengiriman)
+  Customer --> (Konfirmasi Terima Barang)
+  Customer --> (Memberi Review & Rating)
+
+  (Checkout) .> (Login) : <<include>>
+  (Checkout) .> (Pilih Metode Pembayaran) : <<include>>
+  (Melakukan Pembayaran) .> (Lihat Status Pesanan) : <<include>>
+  (Tracking Pengiriman) .> (Lihat Status Pesanan) : <<extend>>
+  (Memberi Review & Rating) .> (Konfirmasi Terima Barang) : <<extend>>
+
+  === USE CASE ADMIN ===
+  Admin --> (Login Admin)
+  Admin --> (Tambah Produk)
+  Admin --> (Edit Produk)
+  Admin --> (Hapus Produk)
+  Admin --> (Kelola Stok)
+  Admin --> (Kelola Harga & Diskon)
+  Admin --> (Kelola Pesanan)
+  Admin --> (Verifikasi Pembayaran)
+  Admin --> (Input Nomor Resi)
+  Admin --> (Kelola Data Pelanggan)
+  Admin --> (Lihat Laporan Penjualan)
+
+  (Kelola Pesanan) .> (Verifikasi Pembayaran) : <<include>>
+  (Verifikasi Pembayaran) .> (Input Nomor Resi) : <<extend>>
+
+  === USE CASE DIREKTUR ===
+  Direktur --> (Login Direktur)
+  Direktur --> (Lihat Dashboard)
+  Direktur --> (Lihat Laporan Penjualan Direktur)
+  Direktur --> (Lihat Laporan Laba Rugi)
+  Direktur --> (Lihat Produk Terlaris)
+  Direktur --> (Menentukan Harga)
+  Direktur --> (Menentukan Promo)
+
+  (Lihat Dashboard) .> (Lihat Laporan Penjualan Direktur) : <<include>>
+  (Lihat Dashboard) .> (Lihat Laporan Laba Rugi) : <<include>>
+  (Menentukan Promo) .> (Menentukan Harga) : <<extend>>
+
+  === USE CASE KURIR ===
+  Kurir --> (Menerima Data Pengiriman)
+  Kurir --> (Mengambil Barang)
+  Kurir --> (Mengirim Barang)
+  Kurir --> (Update Status Pengiriman)
+  Kurir --> (Konfirmasi Barang Terkirim)
+
+  (Mengirim Barang) .> (Mengambil Barang) : <<include>>
+  (Update Status Pengiriman) .> (Mengirim Barang) : <<extend>>
+  (Konfirmasi Barang Terkirim) .> (Update Status Pengiriman) : <<include>>
+}
+
+@enduml
