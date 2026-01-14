@@ -156,36 +156,54 @@ include "koneksi.php";
     <section id="gallery" class="text-center p-5">
         <div class="container">
             <h1 class="fw-bold display-4 pb-3">GALLERY</h1>
-                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
-                    <div class="carousel-inner">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
+                <div class="carousel-inner">
+                    <?php
+                    // Query untuk mengambil data dari tabel gallery
+                    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";
+                    $hasil = $conn->query($sql);
+
+                    // Cek jika query berhasil dan ada data
+                    if ($hasil && $hasil->num_rows > 0) {
+                        $isFirst = true;  // Flag untuk menandai item pertama sebagai active
+                        while ($row = $hasil->fetch_assoc()) {
+                            // Cek jika gambar ada
+                            if (!empty($row["gambar"]) && file_exists('img/' . $row["gambar"])) {
+                    ?>
+                                <div class="carousel-item <?= $isFirst ? 'active' : '' ?>">
+                                    <img src="img/<?= $row["gambar"] ?>" class="d-block w-100" alt="Gambar Gallery">
+                                    <!-- Teks uploader dan tanggal di bawah gambar -->
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            Diunggah oleh: <?= htmlspecialchars($row["uploader"]) ?> | Tanggal: <?= htmlspecialchars($row["tanggal"]) ?>
+                                        </small>
+                                    </div>
+                                </div>
+                    <?php
+                                $isFirst = false;  // Setelah item pertama, tidak active lagi
+                            }
+                        }
+                    } else {
+                        // Jika tidak ada data, tampilkan pesan di carousel
+                    ?>
                         <div class="carousel-item active">
-                            <img src="img/img1.jpg" class="d-block w-100" >
+                            <div class="d-flex justify-content-center align-items-center" style="height: 400px;">
+                                <p class="text-muted">Tidak ada gambar di gallery.</p>
+                            </div>
                         </div>
-                        <div class="carousel-item">
-                            <img src="img/img2.png" class="d-block w-100" >
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/img3.jpg" class="d-block w-100" >
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/img4.jpg" class="d-block w-100" >
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/img5.jpg" class="d-block w-100" >
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/img6.jpg" class="d-block w-100" >
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                    <?php
+                    }
+                    ?>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
     </section>
     <!-- gallery end -->

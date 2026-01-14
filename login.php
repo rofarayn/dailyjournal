@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class='login-result success'>
                     <div>user : admin</div>
                     <div>pass : 123456</div>
-                    <div> isi dulu username sama password rek </div>
+                    <div> Login Sek </div>
                 </div>
                 ";
             } 
@@ -173,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
      <br>
         <div class="text-center mt-3">
-            <a href="index.html" class="btn btn-sm btn-outline-secondary">Home</a>
+            <a href="index.php" class="btn btn-sm btn-outline-secondary">Home</a>
         </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <!DOCTYPE html>
