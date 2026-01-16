@@ -67,7 +67,7 @@ $(document).ready(function(){
 </script>
 
 <?php
-include "upload_fotogallery.php";
+include "upload_foto.php";
 
 /* ================= SIMPAN & EDIT ================= */
 if (isset($_POST['simpan'])) {
@@ -79,7 +79,7 @@ if (isset($_POST['simpan'])) {
     /* === UPLOAD GAMBAR === */
     if (!empty($_FILES['gambar']['name'])) {
 
-        $cek = upload_fotogallery($_FILES['gambar']);
+        $cek = upload_foto($_FILES['gambar']);
 
         if ($cek['status']) {
             $gambar = $cek['message'];

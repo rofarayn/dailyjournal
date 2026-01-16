@@ -12,7 +12,10 @@ $hasil2 = $conn->query($sql2);
 
 //menghitung jumlah baris data gallery
 $jumlah_gallery = $hasil2->num_rows;
+
 ?>
+
+
 
 <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-4">
     <div class="col">

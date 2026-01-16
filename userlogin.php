@@ -65,17 +65,14 @@ if (!isset($_SESSION['username'])) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-dark">
                     <li class="nav-item">
-                        <a class="nav-link" href="admin.php?page=dashboard">Dashboard</a>
+                        <a class="nav-link" href="userlogin.php?page=dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin.php?page=article">Article</a>
+                        <a class="nav-link" href="userlogin.php?page=article">Article</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin.php?page=gallery">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin.php?page=user">Users</a>
-                    </li>  
+                        <a class="nav-link" href="userlogin.php?page=gallery">Gallery</a>
+                    </li>                      
                     <li class="nav-item dropdown">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
@@ -135,7 +132,7 @@ if (!isset($_SESSION['username'])) {
                 <?php
                     $page = $_GET['page'] ?? 'dashboard';
 
-                    $allowed_pages = ['dashboard', 'article', 'gallery','user'];
+                    $allowed_pages = ['dashboard', 'article', 'gallery',];
 
                     if (in_array($page, $allowed_pages)) {
                     ?>

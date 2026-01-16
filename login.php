@@ -1,54 +1,56 @@
 <?php
-//memulai session atau melanjutkan session yang sudah ada
 session_start();
-
-//menyertakan code dari file koneksi
 include "koneksi.php";
 
-if (isset($_SESSION['username'])) { 
-	header("location:admin.php"); 
+if (isset($_SESSION['username'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header("location:admin.php");
+    } else {
+        header("location:userlogin.php");
+    }
+    exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = $_POST['user'];
-  
-  //menggunakan fungsi enkripsi md5 supaya sama dengan password  yang tersimpan di database
-  $password = md5($_POST['pass']);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-	//prepared statement
-  $stmt = $conn->prepare("SELECT username 
-                          FROM user 
-                          WHERE username=? AND password=?");
+    $username = $_POST['user'];
+    $password = $_POST['pass'];
+    
 
-	//parameter binding 
-  $stmt->bind_param("ss", $username, $password);//username string dan password string
-  
-  //database executes the statement
-  $stmt->execute();
-  
-  //menampung hasil eksekusi
-  $hasil = $stmt->get_result();
-  
-  //mengambil baris dari hasil sebagai array asosiatif
-  $row = $hasil->fetch_array(MYSQLI_ASSOC);
+    $stmt = $conn->prepare(
+        "select username, password, role, foto
+         from user 
+         where username=?"
+    );
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
 
-  //check apakah ada baris hasil data user yang cocok
-  if (!empty($row)) {
-    //jika ada, simpan variable username pada session
-    $_SESSION['username'] = $row['username'];
+    $hasil = $stmt->get_result();
+    $user  = $hasil->fetch_assoc(); // ← PENTING
 
-    //mengalihkan ke halaman admin
-    header("location:admin.php");
-  } else {
-	  //jika tidak ada (gagal), alihkan kembali ke halaman login
-    header("location:login.php");
-  }
+    if ($user && password_verify($password, $user['password'])) {
 
-	//menutup koneksi database
-  $stmt->close();
-  $conn->close();
-} else {
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role']     = $user['role'];
+        $_SESSION['foto']     = $user['foto'];
+
+        if ($user['role'] === 'admin') {
+            header("location:admin.php");
+        } else {
+            header("location:userlogin.php");
+        }
+        exit;
+
+    } else {
+        $error = "username atau password salah";
+    }
+
+    $stmt->close();
+}
 ?>
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -131,10 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
         <div>
             <?php
-            // set username dan password 
-            $username = "admin";
-            $password = "123456";
-
+            
             // pas belum login rek
             if ($_SERVER["REQUEST_METHOD"] != "POST") {
                 echo "
@@ -182,5 +181,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
 <?php
-}
+
 ?>
